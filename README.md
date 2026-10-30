@@ -168,3 +168,31 @@ that only matters against a man defender. The effect per route is small and the 
 intervals overlap, so this is a direction, not a ranking tool. Next: the defender's distance and
 side at the break frame in man coverage, to see whether kept speed is the cause or the receivers
 who keep speed are simply the ones defenders give room.
+
+## Eighth pass: the defender at the break, man coverage (analysis/08_defender_at_break.py)
+The man routes from the seventh pass, with the tracking re-read to find the same break frame as the
+fifth pass and the defender there: distance, and leverage (cosine between the receiver's post-break
+heading and the direction to the defender). A limit of the data showed up first: the tracking files
+carry only Combine participants, one to three players per play, not all 22. The nearest tracked
+defender at the break is a median 12.2 yd away, so most of the time he is not the man covering the
+receiver. The defender tests use only the matchup routes, where a tracked defender is within 5 yd at
+the break (188 routes, 64 WRs; 62% of those defenders sit on the side the receiver breaks to).
+Separation at the throw comes from `player_play.csv` (nearest of all defenders), so "separation minus
+distance at the break" mixes two different defenders and is reported only for completeness.
+
+| subset | x | y | n | Spearman | 90% CI (players resampled) |
+|---|---|---|---|---|---|
+| all man | speed kept | separation over route | 783 | +0.07 | +0.02 to +0.12 |
+| matchup | speed kept | defender distance at the break | 188 | +0.07 | -0.04 to +0.18 |
+| matchup | speed kept | separation, defender distance held fixed | 188 | +0.15 | +0.06 to +0.24 |
+| matchup | speed kept | separation over route | 188 | +0.15 | +0.07 to +0.24 |
+| matchup, defender on the break side | speed kept | separation over route | 116 | +0.10 | -0.04 to +0.22 |
+| matchup, defender trailing | speed kept | separation over route | 72 | +0.16 | +0.01 to +0.28 |
+
+Eighth read: when the defender is really on the receiver, the speed kept through the cut goes with
+separation twice as strongly as in man overall, and holding the defender's distance at the break
+fixed does not change it. Receivers who keep speed are not the ones who were given room (+0.07, the
+interval crosses zero). So the kept speed looks like the cause, not a side effect of a soft cushion.
+It is strongest when the defender trails the cut, which is the situation the Combine drill never
+creates. Small samples: a direction, not a ranking tool. Next: build the submission notebook around
+the one chain the data supports (Combine entry repeats, kept speed does not, kept speed pays in man).

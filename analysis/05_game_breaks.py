@@ -51,7 +51,7 @@ def break_features(xy: np.ndarray, s: np.ndarray) -> dict | None:
     through = float(s[max(i - 2, 0):hi].min())
     turn = float(np.degrees(abs(head[min(i + 3, len(head) - 1)] - head[max(i - 6, 0)])))
     return {"entry_speed": entry, "through_speed": through, "retention": through / entry,
-            "turn_deg": turn}
+            "turn_deg": turn, "break_frame": i}
 
 
 def season_breaks(path: Path, keys: set) -> list[dict]:
