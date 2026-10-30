@@ -100,3 +100,24 @@ python analysis/04_combined.py data/nfl-big-data-bowl-2027
 Requires pandas and numpy.
 
 Design Master Solutions LLC · MIT
+
+## Fifth pass: the break on the field (analysis/05_game_breaks.py)
+Game tracking 2023-25 at 10 Hz, WR routes with a break (out, in, corner, post, slant, hitch), snap to
+throw. The break is the frame where the heading turns fastest (0.3 s window, after the first 0.8 s);
+entry = peak speed in the second before it, retention = slowest speed through it / entry. Both are
+route-adjusted (a hitch and a slant are run at different speeds) and taken as a per-player median.
+3,514 break routes, 99 WRs, median turn 81 deg; 60 WRs with >= 15 break routes.
+
+| x | y | n | Spearman | 90% CI |
+|---|---|---|---|---|
+| in-game break entry speed | separation | 60 | +0.09 | -0.14 to +0.30 |
+| in-game speed kept through the break | separation | 60 | +0.21 | +0.00 to +0.39 |
+| Combine reversal entry speed | in-game break entry | 22 | +0.03 | -0.34 to +0.39 |
+| Combine reversal entry speed | in-game retention | 22 | -0.26 | -0.63 to +0.16 |
+| Combine composite | in-game break entry | 22 | +0.13 | -0.23 to +0.48 |
+
+Fifth read: on the field it is the speed a receiver keeps through the cut, not the speed he brings
+into it, that goes with separation. The Combine reversal entry speed does not show up as in-game entry
+speed for the same players, so the +0.32 of the fourth pass is not "fast into the turn on Sundays".
+Only 22 players have both, so the link stays open. Next: measure the Combine route drills (the
+movement closest to a game cut) with this same break detector and compare retention to retention.
