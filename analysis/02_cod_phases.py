@@ -46,6 +46,7 @@ def turns(s: np.ndarray, min_entry: float = 3.0) -> list[dict]:
             "plant_time": half.sum() * DT,
             "reaccel_time": (rp - lo) * DT,
             "turn_time": (rp - pk) * DT,
+            "i_peak": pk, "i_low": lo, "i_back": rp,
         })
         prev = rp
     return out

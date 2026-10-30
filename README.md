@@ -45,11 +45,35 @@ a slightly larger sample and the shuttle carries none. The 3-cone has three turn
 angles while our segmentation pools them, so the next step is per-turn-angle features (the 180 deg
 turn vs the two 90 deg ones) before moving to NFL breaks.
 
+## Third pass: turn angle (analysis/03_turn_angle.py)
+Each detected turn gets the angle between the path into the plant and the path out of it. Every
+detected turn is a reversal (shuttle median 173 deg, 3-cone 154 deg); only 7 of 211 3-cone turns
+fall under 135 deg. The ~90 deg bends of the 3-cone are run without the speed ever dropping below
+60% of entry, so the speed-minimum detector never sees them. They are measured separately: frames
+outside the reversals turning at >= 60 deg/s while above half of the rep's peak speed.
+
+| 3-cone feature (WRs, >= 30 targets) | n | Spearman vs separation |
+|---|---|---|
+| reversal entry speed | 53 | +0.30 |
+| reversal plant time | 53 | +0.14 |
+| bend speed / rep peak speed | 37 | +0.19 |
+| bend speed (yd/s) | 37 | +0.12 |
+| time spent bending | 37 | -0.03 |
+| 3-cone stopwatch, same sample | 34 | -0.42 |
+
+Third read: speed carried into the reversal (+0.30, n=53) is the strongest tracking feature so far
+and covers more players than the stopwatch. Holding speed through the bends points the right way
+(+0.19) but is weak, and it only correlates -0.25 with the stopwatch, so the clock is capturing
+something the bends alone do not. Next: combine reversal entry speed with the bend ratio and test
+it on the players with no recorded 3-cone time, then measure the same two features on route breaks
+in game tracking.
+
 ## Run
 ```
 kaggle competitions download nfl-big-data-bowl-2027 -p data
 python analysis/01_break_retention.py data/nfl-big-data-bowl-2027
 python analysis/02_cod_phases.py data/nfl-big-data-bowl-2027
+python analysis/03_turn_angle.py data/nfl-big-data-bowl-2027
 ```
 Requires pandas and numpy.
 
