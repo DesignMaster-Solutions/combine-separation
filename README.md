@@ -202,3 +202,8 @@ the one chain the data supports (Combine entry repeats, kept speed does not, kep
 runs `analysis/01`-`08` in order, printing each summary table. Push with
 `kaggle kernels push -p kaggle` (kernel `designmasterdms/does-the-combine-see-separation`, private until
 the writeup is submitted, then public as the rules require).
+
+## Writeup draft (`writeup/`)
+`writeup/WRITEUP.md` is the Kaggle writeup draft (about 1,500 of the 2,000 allowed words) built on the
+chain above; `writeup/chain.png` is drawn from the summary CSVs by
+`python writeup/make_chain.py` (needs pandas and matplotlib, run after `analysis/04`-`08`).
