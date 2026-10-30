@@ -96,6 +96,8 @@ python analysis/01_break_retention.py data/nfl-big-data-bowl-2027
 python analysis/02_cod_phases.py data/nfl-big-data-bowl-2027
 python analysis/03_turn_angle.py data/nfl-big-data-bowl-2027
 python analysis/04_combined.py data/nfl-big-data-bowl-2027
+python analysis/05_game_breaks.py data/nfl-big-data-bowl-2027
+python analysis/06_combine_game_retention.py data/nfl-big-data-bowl-2027
 ```
 Requires pandas and numpy.
 
@@ -121,3 +123,24 @@ into it, that goes with separation. The Combine reversal entry speed does not sh
 speed for the same players, so the +0.32 of the fourth pass is not "fast into the turn on Sundays".
 Only 22 players have both, so the link stays open. Next: measure the Combine route drills (the
 movement closest to a game cut) with this same break detector and compare retention to retention.
+
+## Sixth pass: the same detector on the Combine route drills (analysis/06_combine_game_retention.py)
+`break_features` from the fifth pass, unchanged, on the Combine route drills (slant, dagger, curl,
+comeback, slot strike), drill-adjusted, per-player median over >= 3 reps. 321 drill cuts, 106 WRs,
+median turn 124 deg; 51 WRs also have >= 15 break routes in 2023-25 games.
+
+| x | y | n | Spearman | 90% CI |
+|---|---|---|---|---|
+| Combine route-cut entry speed | in-game break entry | 51 | +0.25 | +0.04 to +0.46 |
+| Combine speed kept through the cut | in-game speed kept | 51 | +0.05 | -0.18 to +0.29 |
+| Combine speed kept through the cut | separation | 51 | +0.06 | -0.19 to +0.29 |
+| Combine route-cut entry speed | separation | 51 | +0.01 | -0.22 to +0.25 |
+| in-game speed kept through the break | separation | 51 | +0.24 | +0.02 to +0.45 |
+
+Sixth read: measured movement to movement, the Combine carries over the part that does not matter.
+How fast a receiver arrives at a cut in shorts shows up again on Sundays (+0.25), but that entry speed
+does not go with separation. How much speed he keeps through the cut is what goes with separation on
+the field (+0.24 on these 51), and the Combine route drill does not see it (+0.05): an uncontested,
+scripted cut is not the cut a receiver makes against a defender. Next: does keeping speed through
+the cut depend on the defender's leverage at the break (nearest defender distance and side in the
+game frames), which would explain why no drill reproduces it.
