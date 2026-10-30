@@ -25,10 +25,31 @@ timed change-of-direction drill does (faster 3-cone, more separation). Next: seg
 shuttle at 10 Hz (decel distance, plant time, re-acceleration) and measure the same phases on NFL
 breaks from `game_tracking_*.csv`, so the link is movement-to-movement instead of stopwatch-to-outcome.
 
+### 10 Hz change-of-direction phases (`analysis/02_cod_phases.py`)
+3-cone and short-shuttle reps split into turns (546 turns), each turn into deceleration, plant
+(time below half the entry speed) and re-acceleration (back to 90% of entry speed). Median turn per
+player, 42 players with tracking and >= 30 targets:
+
+| phase feature | n | rho vs separation |
+|---|---|---|
+| entry speed into the turn | 42 | +0.21 |
+| re-acceleration time | 42 | -0.15 |
+| deceleration rate | 42 | -0.13 |
+| plant time | 42 | -0.03 |
+| whole turn time | 42 | -0.02 |
+| 3-cone time (stopwatch, same sample) | 32 | -0.36 |
+| short shuttle time (stopwatch) | 39 | -0.02 |
+
+Second read: splitting the turn into phases does not beat the stopwatch; the 3-cone signal holds on
+a slightly larger sample and the shuttle carries none. The 3-cone has three turns at different
+angles while our segmentation pools them, so the next step is per-turn-angle features (the 180 deg
+turn vs the two 90 deg ones) before moving to NFL breaks.
+
 ## Run
 ```
 kaggle competitions download nfl-big-data-bowl-2027 -p data
 python analysis/01_break_retention.py data/nfl-big-data-bowl-2027
+python analysis/02_cod_phases.py data/nfl-big-data-bowl-2027
 ```
 Requires pandas and numpy.
 
