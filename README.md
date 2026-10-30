@@ -54,7 +54,7 @@ outside the reversals turning at >= 60 deg/s while above half of the rep's peak 
 
 | 3-cone feature (WRs, >= 30 targets) | n | Spearman vs separation |
 |---|---|---|
-| reversal entry speed | 53 | +0.30 |
+| reversal entry speed (3-cone + shuttle pooled, see fourth pass) | 53 | +0.30 |
 | reversal plant time | 53 | +0.14 |
 | bend speed / rep peak speed | 37 | +0.19 |
 | bend speed (yd/s) | 37 | +0.12 |
@@ -68,12 +68,34 @@ something the bends alone do not. Next: combine reversal entry speed with the be
 it on the players with no recorded 3-cone time, then measure the same two features on route breaks
 in game tracking.
 
+## Fourth pass: composite and the players with no stopwatch (analysis/04_combined.py)
+Correction to the third pass: its reversal row pooled 3-cone and shuttle reversals. Split by drill,
+3-cone reversals alone give +0.22 (n=37) and shuttle reversals +0.09 (n=42); pooling is what
+reaches +0.30, because it covers more players. Here the pooled reversal entry speed and the bend
+ratio are z-scored and averaged, and every Spearman carries a 2,000-draw bootstrap 90% interval.
+
+| feature (WRs, >= 30 targets) | subset | n | Spearman | 90% CI |
+|---|---|---|---|---|
+| composite (reversal entry + bend ratio) | all | 53 | +0.32 | +0.09 to +0.52 |
+| reversal entry speed, pooled | all | 53 | +0.30 | +0.07 to +0.50 |
+| 3-cone stopwatch | all | 39 | -0.43 | -0.60 to -0.20 |
+| reversal entry speed, pooled | no timed 3-cone | 14 | +0.50 | +0.05 to +0.78 |
+| composite | no timed 3-cone | 14 | +0.36 | -0.17 to +0.75 |
+| composite | with timed 3-cone | 39 | +0.29 | +0.01 to +0.53 |
+
+Fourth read: the composite is the first tracking measure whose interval clears zero on the full
+sample, and the reversal entry speed keeps its sign on the 14 receivers the stopwatch misses
+(small n, wide interval). The stopwatch is still the single best number where it exists, so the
+tracking features are a fill-in for missing times, not a replacement. Next: measure entry speed
+into route breaks in game tracking and check it against the same separation target.
+
 ## Run
 ```
 kaggle competitions download nfl-big-data-bowl-2027 -p data
 python analysis/01_break_retention.py data/nfl-big-data-bowl-2027
 python analysis/02_cod_phases.py data/nfl-big-data-bowl-2027
 python analysis/03_turn_angle.py data/nfl-big-data-bowl-2027
+python analysis/04_combined.py data/nfl-big-data-bowl-2027
 ```
 Requires pandas and numpy.
 
