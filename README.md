@@ -98,6 +98,7 @@ python analysis/03_turn_angle.py data/nfl-big-data-bowl-2027
 python analysis/04_combined.py data/nfl-big-data-bowl-2027
 python analysis/05_game_breaks.py data/nfl-big-data-bowl-2027
 python analysis/06_combine_game_retention.py data/nfl-big-data-bowl-2027
+python analysis/07_coverage_split.py data/nfl-big-data-bowl-2027
 ```
 Requires pandas and numpy.
 
@@ -144,3 +145,26 @@ the field (+0.24 on these 51), and the Combine route drill does not see it (+0.0
 scripted cut is not the cut a receiver makes against a defender. Next: does keeping speed through
 the cut depend on the defender's leverage at the break (nearest defender distance and side in the
 game frames), which would explain why no drill reproduces it.
+
+## Seventh pass: man against zone (analysis/07_coverage_split.py)
+The fifth-pass break routes (no tracking re-read) joined to the defense's man/zone call and the
+receiver's cushion at the snap (`player_play.csv`). Retention is route-adjusted; both retention and
+separation have the cushion effect removed by a linear fit. 2,421 break routes with a call (783 man,
+1,638 zone), 95 WRs. The gap interval resamples players, since routes from one receiver are clustered.
+
+| level | coverage | n | Spearman (speed kept vs separation) | 90% CI |
+|---|---|---|---|---|
+| route | man | 783 | +0.08 | |
+| route | zone | 1,638 | +0.02 | |
+| route | man minus zone | 2,421 | +0.07 | +0.00 to +0.13 |
+| player (>= 8 routes in that coverage) | man | 34 | +0.19 | -0.10 to +0.48 |
+| player (>= 8 routes in that coverage) | zone | 57 | +0.09 | -0.13 to +0.30 |
+
+Seventh read: the speed kept through the cut pays where a defender trails the receiver. Against man
+it goes with separation four times as strongly as against zone, and the gap's interval sits at or
+above zero; against zone, where the defender waits in an area, it is close to nothing. That is the
+missing piece for the sixth read: the Combine cut is uncontested, so it cannot show the one skill
+that only matters against a man defender. The effect per route is small and the player-level
+intervals overlap, so this is a direction, not a ranking tool. Next: the defender's distance and
+side at the break frame in man coverage, to see whether kept speed is the cause or the receivers
+who keep speed are simply the ones defenders give room.
