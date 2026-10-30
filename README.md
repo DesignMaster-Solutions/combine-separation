@@ -196,3 +196,9 @@ interval crosses zero). So the kept speed looks like the cause, not a side effec
 It is strongest when the defender trails the cut, which is the situation the Combine drill never
 creates. Small samples: a direction, not a ranking tool. Next: build the submission notebook around
 the one chain the data supports (Combine entry repeats, kept speed does not, kept speed pays in man).
+
+## Kaggle reproduction notebook (`kaggle/`)
+`kaggle/combine-separation.ipynb` clones this repo on Kaggle, finds the attached competition data and
+runs `analysis/01`-`08` in order, printing each summary table. Push with
+`kaggle kernels push -p kaggle` (kernel `designmasterdms/does-the-combine-see-separation`, private until
+the writeup is submitted, then public as the rules require).

@@ -1,0 +1,15 @@
+{
+ "id": "designmasterdms/does-the-combine-see-separation",
+ "title": "Does the Combine see separation",
+ "code_file": "combine-separation.ipynb",
+ "language": "python",
+ "kernel_type": "notebook",
+ "is_private": true,
+ "enable_gpu": false,
+ "enable_internet": true,
+ "dataset_sources": [],
+ "competition_sources": [
+  "nfl-big-data-bowl-2027"
+ ],
+ "kernel_sources": []
+}
